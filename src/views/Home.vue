@@ -21,7 +21,7 @@
       </p>
    </div>
       
-   <Card v-if="!pokeStore.loading" />
+   <Card v-if="!pokeStore.loading" :pokemon="pokeStore.pokemon" :sprite="sprite" :key="sprite"/>
    <Loading v-else/>
 
    <div class="flex justify-between max-w-[600px] mx-auto mt-10 px-8 text-xs">
@@ -33,6 +33,12 @@
       <Button
       :pokemon="pokeStore.nextPokemon"
       @click="handlePevNext(pokeStore.nextPokemon.id)"/>
+   </div>
+   <div class="pt-4 text-center">
+      <Button
+      :pokemon="{name: 'Toggle Shiny', id:''}"
+
+      @click="toggleSprite()"/>
    </div>
    <Footer />
 </template>
@@ -61,29 +67,39 @@ onMounted(() => {
    );
    document.title = "Pokedex - Serch 'Em All"
 });
-
 const pokeStore = usePokemonStore();
 
+
 const search = ref('')
+var sprite = ref('front')
 
 const handleSubmit = () => {
    const regNums = /^[0-9]/;
-   if(regNums.test(search.value)){
+   search.value = search.value.toLowerCase()
+   if (search.value === ''){
+      pokeStore.fetchPokemon(
+         pokeStore.randomPokemon(
+            pokeStore.totalPokemon()
+         )
+      );
+   }else if(regNums.test(search.value)){
       search.value = Number(search.value);
-   }  else if (search.value === ''){
-         pokeStore.fetchPokemon(
-            pokeStore.randomPokemon(
-               pokeStore.totalPokemon
-            )
-         );
-      search.value = search.value.toLowerCase()
    }
-   pokeStore.fetchPokemon(search.value)
-}
+   pokeStore.fetchPokemon(search.value);
    
-
+}
 
 const handlePevNext = (id) => {
    pokeStore.fetchPokemon(id)
+}
+
+const toggleSprite = () =>{
+   if(sprite.value === 'front'){
+      sprite.value = 'frontShiny'
+      console.log(sprite.value);
+   } else{
+      sprite.value = 'front'
+      console.log(sprite.value);
+   }
 }
 </script>

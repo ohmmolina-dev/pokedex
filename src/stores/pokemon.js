@@ -21,6 +21,7 @@ export const usePokemonStore = defineStore('pokemon',{
          name: 'None',
          id: ''
       },
+      listPokemon: [],
    }),
    getters:{
    },
@@ -130,6 +131,24 @@ export const usePokemonStore = defineStore('pokemon',{
             }
             console.log(e.message);
          }
-      }  
+      },
+      async fetchPokemonList(){
+         try {
+            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${this.totalPokemon}`);
+            const data = await res.json();
+            data.results.forEach((idx) =>{
+               var cnt = 0;
+               var lixd = idx.url.lastIndexOf('/',33); //se extrae el numero de id desde el "/id/""
+               var id = idx.url.substring(lixd).slice(1,-1) //se cortan ambas barras para dejas "id"
+               this.listPokemon.push({
+                  name: idx.name,
+                  id: id,
+                  front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+               })
+            })
+         }catch (e) {
+            console.log(e.message);
+         }
+      }
    }
 })

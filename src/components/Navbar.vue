@@ -1,17 +1,14 @@
 <template>
    <nav
-   class="flex py-3 px-4 justify-evenly items-center bg-teal-500 text-dark">
+   class="sticky flex flex-wrap justify-evenly items-center top-0 py-2 z-50 bg-teal-500 text-dark">
       <div>
-         <p class="-mt-2 font-pokefont">Pokedex</p>
+         <router-link to="/">
+            <p class="font-pokefont">Pokedex</p>
+         </router-link>
+      </div>
+      <div>
+         <router-link to="/list"><p class="font-pokefont">All Pokemon</p></router-link>
       </div>
       
    </nav>
 </template>
-
-<script setup>
-
-</script>
-
-<style>
-
-</style> 
