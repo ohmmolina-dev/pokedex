@@ -78,8 +78,6 @@ export const usePokemonStore = defineStore('pokemon',{
             if(e.name === 'SyntaxError'){
                this.display= ''
                console.log('id '+id+': Not found.');
-            }else{
-               console.log(e.message);
             }
          } finally{
             this.loading = false;

@@ -12,6 +12,7 @@
       <button
       type="submit"
       class="ml-1 p-[0.3rem] rounded bg-teal-300"
+      :disabled="pokeStore.loading"
       @click="handleSubmit">
          <SearchSvg class="w-3"/>
       </button>
@@ -75,15 +76,16 @@ var sprite = ref('front')
 
 const handleSubmit = () => {
    const regNums = /^[0-9]/;
-   search.value = search.value.toLowerCase()
    if (search.value === ''){
       pokeStore.fetchPokemon(
          pokeStore.randomPokemon(
-            pokeStore.totalPokemon()
+            pokeStore.totalPokemon
          )
       );
    }else if(regNums.test(search.value)){
       search.value = Number(search.value);
+   }else{
+      search.value = search.value.toLowerCase()
    }
    pokeStore.fetchPokemon(search.value);
    
